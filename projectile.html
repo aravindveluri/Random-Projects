@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html> 
+ <head>
+    <title>hy</title> 
+</head>
+ <body>
+    <p align="center"> 
+	<!--This draws the Canvas on the webpage -->
+      <canvas id="mycanvas"></canvas> 
+    </p>
+ </body>
+ 
+ <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+ 
+ <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(1920, 1080); 
+        frameRate(120);
+        //ellipse(100, 100, 100, 100);
+        var xc;
+        var cor = 0.71;
+        var yc = 0;
+        //var angle = (Math.PI)/3;
+        var velocity = 15.0;
+        var time=0;
+        var factor = 40;
+        var gravity = 10;
+        var Angle = (Math.PI)/2;    
+        /*var projectile = function(){
+            xc =Math.cos(angle)*time
+        }*/
+        //Walls, obstacles, Wedges, Bounded area with coeffecient of Restitution
+        var projectile = function(angle){
+            
+            background(200, 200, 200);
+            //stroke(20);
+            
+            //noStroke();
+            //ellipse(250, 250, 100, 100);
+            xc = velocity * Math.cos(angle) * time;
+            yc = (Math.tan(angle) * xc) - ((0.5 * gravity * xc * xc)/(velocity * velocity * Math.cos(angle) * Math.cos(angle)));
+            
+            text("Y-Coordinate: " + round(yc * 1000)/1000, 1000, 100);
+            text("X-Coordinate: " + round(xc * 1000)/1000, 1000, 115);
+            //text("Velocity component on X-Coordinate: " + round(velocity * Math.cos(angle) * 1000)/1000, 1000, 130);
+            //text("Velocity component on Y-Coordinate: " + ((round(velocity * Math.sin(angle) * 1000)/1000) - (10 * time)), 1000, 145);
+            /*if(time > velocity * Math.sin(angle)/gravity){
+                text("time: ", 1000, 145);
+                do{
+                    maxheight = yc;
+                }
+                while(false);
+            }
+            else{
+                maxheight = yc;
+            };
+            text("Max height: " + round(maxheight * 1000)/1000, 1000, 130);
+            */
+            fill(10, 10, 10);
+            line(20, 628, 1900, 628);
+            ellipse(200 + (factor * xc), (600 - (factor * yc)), 50, 50);
+            time = time + (1/120);
+            
+        };
+        
+        draw = function(){
+            if(yc === 0 || yc > 0){
+                projectile(Angle);
+            };
+            if(xc > 0 && (yc < 0 || yc ===0)){
+                time = 0;
+                
+                if(Angle != Math.PI/2){
+                    velocity = velocity * Math.cos(Angle)/(Math.cos(Math.atan(Math.tan(Angle) * cor)));
+                    Angle = Math.atan(Math.tan(Angle) * cor);
+                }
+                else{
+                    velocity = velocity * cor;
+                }
+                projectile(Angle);
+                
+            };
+            
+        };
+        
+    }};
+
+    var canvas = document.getElementById("mycanvas"); 
+    var processingInstance = new Processing(canvas, sketchProc); 
+ </script>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html> 
+ <head>
+    <title>hy</title> 
+</head>
+ <body>
+    <p align="center"> 
+	<!--This draws the Canvas on the webpage -->
+      <canvas id="mycanvas"></canvas> 
+    </p>
+ </body>
+ 
+ <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+ 
+ <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(1920, 1080); 
+        frameRate(1);
+        var x;
+        var y;
+        var factor = 50;
+        var time = -100;
+        background(200, 200, 200);
+        line(200, 0, 200, 1080);
+        line(0, 600, 1920, 600);
+        while(time < 100){
+            
+            y = Math.log(x)*x*x;
+            textSize(20);
+            //text("sin x", 1000, 100);
+            fill(15, 15, 15);
+            point(200 + (factor * x), (600 - (factor * y)));
+            x = time;
+            time += 1/600;
+        };
+        
+    }};
+
+    var canvas = document.getElementById("mycanvas"); 
+    var processingInstance = new Processing(canvas, sketchProc); 
+ </script>
+
+</html>
